@@ -8,8 +8,13 @@ export const getAblyToken = async (req: Request, res: Response) => {
         // Define capabilities
         // 1. Can subscribe to all public ticker channels
         // 2. Can subscribe to their OWN private channel
+        // Define capabilities
+        // Requirement: "Create a temporary token with "Subscribe-Only" permissions"
+        // 1. Public Tickers: 'ticker-*'
+        // 2. Private User Alerts: 'private-user-{userId}'
         const capability = {
-            '*': ['publish', 'subscribe', 'presence']
+            'ticker-*': ['subscribe'],
+            [`private-user-${userId}`]: ['subscribe']
         };
 
         // Wrap in promise to handle potential callback-only legacy versions or odd behaviors
